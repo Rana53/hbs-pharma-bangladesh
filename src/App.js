@@ -1,26 +1,77 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component, Fragment } from 'react';
 import './App.css';
+import Navbar from './Header/Navbar';
+import Title from './Header/title';
+import Stores from './features/stores/stores';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import Home from './features/Home';
+import Footer from './Header/Footer';
+import ProductForm from './features/products/ProductForm/ProductForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    logIn: true
+  }
+  toggleLogin = () => {
+    this.setState({
+      logIn : false
+    })
+  }
+  render () {
+    return (
+      <Fragment>
+        <div style={{backgroundColor:'#D7F9F1'}}>
+        <Title/>
+        <Navbar logIn={this.state.logIn} toggleLogin={this.toggleLogin}/>
+        {
+          !this.state.logIn ?
+          <div className="container">
+            <Route 
+              exact 
+              path='/' 
+              render={() => (
+                <Home logIn={this.state.logIn} toggleLogin={this.toggleLogin}/>
+              )} 
+            />
+            <Route
+              path='/(.+)'
+                render={() => ( 
+                  <Home logIn={this.state.logIn} toggleLogin={this.toggleLogin}/>
+                )
+              }
+            />
+          </div>
+          :
+          <div className="container">
+            <Route 
+              exact 
+              path='/' 
+              render={() => (
+                <Home logIn={this.state.logIn} toggleLogin={this.toggleLogin}/>
+              )} 
+            />
+            <Route
+              path='/(.+)'
+              render={() => (
+                <Fragment>
+                  <Switch>
+                    <Route exact path='/store' component={Stores}/>
+                    <Route path='/store/add-product' component={ProductForm}/>
+                  </Switch>
+                </Fragment>
+                )
+              }
+            />
+          </div>
+        }
+        
+        <Footer/>
+        </div>
+      </Fragment>
+    )
+  }
 }
+export default withRouter(App);
 
-export default App;
+
+//https://ui.dev/react-router-v4-pass-props-to-components/  (passing props)
