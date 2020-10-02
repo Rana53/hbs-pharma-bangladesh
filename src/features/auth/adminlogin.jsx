@@ -1,7 +1,23 @@
 import React, {Component, Fragment} from 'react';
+import {withRouter} from 'react-router-dom'
 import { Container, Image, Form, Button, Row, Col } from 'react-bootstrap';
 import AdminImage from '../../assets/admin/admin_habib.jpg'
+
 class AdminLogin extends Component {
+  state = {
+    email: '',
+    password: ''
+  }
+  onChangeInput = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+  onLogin = () => {
+    localStorage.setItem('admin-login',this.state.email)
+    console.log('item', localStorage.getItem('admin-login'))
+    this.props.history.push('/')
+  }
   render() {
     return (
       <Fragment>
@@ -32,13 +48,25 @@ class AdminLogin extends Component {
                 }}>
                 <Form.Group controlId="formBasicEmail">
                 <Form.Label>Admin id</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control 
+                  name='email'
+                  value={this.state.email}
+                  type="email" 
+                  placeholder="Enter email" 
+                  onChange={this.onChangeInput}
+                />
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control 
+                    type="password" 
+                    placeholder="Password" 
+                    name='password'  
+                    value={this.state.password}
+                    onChange={this.onChangeInput}
+                  />
                 </Form.Group>
-                <Button variant="info" as="submit" size='md' block>Submit</Button>
+                <Button variant="info" as="submit" size='md' block onClick={this.onLogin}>Submit</Button>
               </Form>
             </Col>
             <Col></Col>
@@ -49,4 +77,4 @@ class AdminLogin extends Component {
   }
 }
 
-export default AdminLogin;
+export default withRouter(AdminLogin);
