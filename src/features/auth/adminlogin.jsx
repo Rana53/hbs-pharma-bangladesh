@@ -14,10 +14,9 @@ class AdminLogin extends Component {
     });
   }
   onLogin = () => {
-    localStorage.setItem('admin-login',this.state.email)
-    console.log('item', localStorage.getItem('admin-login'))
-    this.props.history.push('/')
+    this.props.onLogin(this.state.email)
   }
+  
   render() {
     return (
       <Fragment>

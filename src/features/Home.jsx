@@ -1,18 +1,10 @@
 import React, {Component, Fragment} from 'react';
-import AdminLogin from './auth/adminlogin';
-
+//import AdminLogin from './auth/adminlogin';
+import { withRouter } from 'react-router-dom'
 class Home extends Component {
-  state = {
-    login : false
-  }
-  componentDidMount(){
-    this.setState({
-      login: localStorage.getItem('admin-login')?true: false
-    })
-  }
   render() {
-    if(!this.state.login){
-      return <AdminLogin/>
+    if(!this.props.login){
+      this.props.history.push('/admin-login')
     }
     return (
       <Fragment>
@@ -26,4 +18,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

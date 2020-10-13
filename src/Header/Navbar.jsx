@@ -1,20 +1,10 @@
 import React, { Fragment ,Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import {Navbar, Nav, Form, Button, FormControl } from 'react-bootstrap';
-import AdminAuth from '../features/auth/adminAuth'
 class NavbarX extends Component {
-  state = {
-    login: AdminAuth.isAuthenticated()
-  }
-  logOut = () => {
-    localStorage.removeItem('admin-login');
-    this.setState({
-      login: false
-    })
-    this.props.history.push('/fasd')
-  }
   render() {
-  const {login} = this.state
+  
+  const {login} = this.props
   return (
     <Navbar bg="dark" variant="dark"  sticky="top">
     <Navbar.Brand>HBS</Navbar.Brand>
@@ -35,9 +25,9 @@ class NavbarX extends Component {
     </Form>
     {
       login?
-      <Button style={{marginLeft: "5px"}} onClick={this.logOut}>Logout</Button>
+      <Button style={{marginLeft: "5px"}} onClick={this.props.onLogout}>Logout</Button>
       :
-      <Button style={{marginLeft: "5px"}} >Customer Login</Button>
+      <Button style={{marginLeft: "5px"}}>Login</Button>
     }
     
     

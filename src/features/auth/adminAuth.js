@@ -1,6 +1,6 @@
 class AdminAuth{
   constructor() {
-    this.authenticated = localStorage.getItem('admin-login') ? true: false;
+    this.authenticated = localStorage.getItem('admin-name') ? true: false;
     //this.authenticated = false;
   }
   login(cb){
