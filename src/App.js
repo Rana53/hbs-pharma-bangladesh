@@ -7,6 +7,7 @@ import Stores from './features/stores/stores';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Home from './features/Home';
 import Footer from './Header/Footer';
+import ProductDashboard from './features/products/Dashboard/productDashboard';
 import ProductForm from './features/products/ProductForm/ProductForm';
 import ProtectedRoutes from './features/routes/protectedRoutes';
 //import PageNotFound from './features/pageNotFound';
@@ -53,6 +54,7 @@ class App extends Component {
               <Switch>
                 <ProtectedRoutes exact path='/store' component={Stores}/>
                 <ProtectedRoutes path='/store/add-product' component={ProductForm}/>
+                <ProtectedRoutes path='/store/product-dashboard' component={ProductDashboard}/>
               </Switch>
             </Fragment>
             )

@@ -10,7 +10,7 @@ router.post('/store-product', (req, res, next) => {
     Product.findOne({companyName: form.companyName, productName:form.productName, category: form.category})
     .then((product) => {
       if(product){
-        console.log("---------------Got Update Product----------------")
+       // console.log("---------------Got Update Product----------------")
         const history = product.history;
         history.push({
           date: new Date().toISOString(),
@@ -25,13 +25,11 @@ router.post('/store-product', (req, res, next) => {
         _product.prePieceSalePrice = parseInt(form.prePieceSalePrice)
         Product.findByIdAndUpdate({_id: product._id}, {$set: _product})
           .then(updateProduct=> {
-            const xx = updateProduct
-            xx.history = []
-            console.log("Update ",xx)
+            console.log("Update ",updateProduct)
           })
         
       } else {
-        console.log("---------------NO pRODUCT----------------")
+      //  console.log("---------------NO pRODUCT----------------")
         const product = new Product({
           _id: mongoose.Types.ObjectId(),
           companyName: form.companyName,
@@ -42,9 +40,6 @@ router.post('/store-product', (req, res, next) => {
           prePieceSalePrice:parseInt(form.prePieceSalePrice)
         })
         product.save()
-        const xx = product
-        xx.history = []
-        console.log("Update ",xx)
       }
       
     })
@@ -56,6 +51,29 @@ router.post('/store-product', (req, res, next) => {
   return res.status(200).json({
     success: true
   });
+})
+
+router.get('/all-products', (req, res, next) => {
+  Product.find()
+    .then(products => {
+      if(products.length > 0){
+        return res.status(200).json({
+          success: true,
+          products: products
+        })
+      }
+      res.status(200).json({
+        success: false,
+        products: products
+      })
+    })
+    .catch(error => {
+      res.status(500).json({
+        success: false,
+        error: error
+      })
+    })
+  
 })
 
 module.exports = router;
