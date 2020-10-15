@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faWindowClose } from '@fortawesome/free-solid-svg-icons'
 const FormList = (props) => {
   const {companyName,productName,category,totalProduct,totalPrice,prePieceSalePrice} = props.form
-  console.log(props)
   return (    
     <Row>
         <Col>{companyName}</Col>
@@ -24,7 +23,7 @@ const FormList = (props) => {
           <Button 
             variant="outline-danger" 
             style={{width:"40%", height: '100%', marginLeft: "3%"}}
-//            onClick={this.props.cancelForm}
+            onClick={() => props.onRemoveFormData(props.index)}
             >
             <FontAwesomeIcon icon={faWindowClose}/> 
           </Button>

@@ -1,4 +1,5 @@
 import React, {Component, Fragment } from 'react';
+
 import './App.css';
 import Navbar from './Header/Navbar';
 import Title from './Header/title';
@@ -8,7 +9,7 @@ import Home from './features/Home';
 import Footer from './Header/Footer';
 import ProductForm from './features/products/ProductForm/ProductForm';
 import ProtectedRoutes from './features/routes/protectedRoutes';
-import PageNotFound from './features/pageNotFound';
+//import PageNotFound from './features/pageNotFound';
 import AdminLogin from './features/auth/adminlogin'
 class App extends Component {
   state={
@@ -52,7 +53,6 @@ class App extends Component {
               <Switch>
                 <ProtectedRoutes exact path='/store' component={Stores}/>
                 <ProtectedRoutes path='/store/add-product' component={ProductForm}/>
-                <Route component={PageNotFound}/>
               </Switch>
             </Fragment>
             )

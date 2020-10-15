@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import axios from 'axios';
 import SingleForm from './SingleForm';
 import SingleFormHeader from './SingleFormHeader';
 import FormList from './FormList';
@@ -14,7 +15,19 @@ class ProductForm extends Component {
       ]
     }
   }
- 
+  onSubmitFullForm = () => {
+    axios.post('http://localhost:8000/api/product/store-product', {formData: this.state.formData})
+    .then(response => {
+      if(response.data.success){
+        
+        this.setState({
+          newFormOpen: false,
+          formData: []
+        })
+      }
+      
+    })
+  }
   onFormSubmit = (newForm) => {
     const newFormData = this.state.formData
     console.log("Data in Log " ,newFormData);
@@ -29,6 +42,12 @@ class ProductForm extends Component {
     console.log("Cancel Form");
     this.setState({
       newFormOpen: false
+    })
+  }
+  onRemoveFormData = (index) => {
+     const newFormData = this.state.formData.filter((data, i) => {return i !== index})
+     this.setState({
+      formData: newFormData
     })
   }
   onChangeInput = (e) => {
@@ -86,10 +105,14 @@ class ProductForm extends Component {
                 {
                   this.state.formData && 
                   this.state.formData.map((singleForm, index) => (
+                    <div>
                     <FormList 
-                      key={index}
+                      key={index} // index define because key are undefine in formlist
+                      index={index}
+                      onRemoveFormData={this.onRemoveFormData}
                       form={singleForm}
                     />                    
+                    </div>
                   ))
                 } 
                 {  
@@ -110,11 +133,11 @@ class ProductForm extends Component {
                 </div>
               </Form>
               {
-                this.state.formData.length >= 0 && 
-                
-                  <Button 
+                this.state.formData.length > 0 && 
+                <Button 
                   variant="warning" 
                   size='md' block
+                onClick={this.onSubmitFullForm}
                 >
                   Submit
                 </Button>                

@@ -1,12 +1,14 @@
 import React, {Component, Fragment} from 'react';
 import {withRouter} from 'react-router-dom'
 import { Container, Image, Form, Button, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 import AdminImage from '../../assets/admin/admin_habib.jpg'
 
 class AdminLogin extends Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    error: ''
   }
   onChangeInput = (e) => {
     this.setState({
@@ -14,7 +16,16 @@ class AdminLogin extends Component {
     });
   }
   onLogin = () => {
-    this.props.onLogin(this.state.email)
+    axios.get(`http://localhost:8000/api/admin/${this.state.email}`)
+    .then(response => {
+      if(response.data.success){
+        this.props.onLogin(this.state.email)
+      } else{
+        this.setState({
+          error: 'Admin Invalid'
+        })
+      }
+    })
   }
   
   render() {
@@ -65,6 +76,10 @@ class AdminLogin extends Component {
                     onChange={this.onChangeInput}
                   />
                 </Form.Group>
+                { this.state.error && 
+                  <p style={{backgroundColor:'red'}}>{this.state.error}</p>
+                }
+                
                 <Button variant="info" as="submit" size='md' block onClick={this.onLogin}>Submit</Button>
               </Form>
             </Col>

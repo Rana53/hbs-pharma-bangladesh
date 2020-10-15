@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 const adminRoutes = require('./routes/admin');
+const productRoutes = require('./routes/product');
 const mongoose = require('mongoose');
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(bodyParser.json()); 
@@ -31,4 +32,5 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/admin', adminRoutes);
+app.use('/api/product', productRoutes);
 module.exports = app;
